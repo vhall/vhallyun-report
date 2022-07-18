@@ -13,7 +13,7 @@
 
  or
 
- npm add @vhallyun/log-reporter
+ yarn add @vhallyun/log-reporter
 
 ```
 
