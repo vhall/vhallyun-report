@@ -54,10 +54,9 @@
           },
         },
         mounted() {
-          // 设置上报环境
+          // 设置上报环境, url参考：http://wiki.vhallops.com/pages/viewpage.action?pageId=918066
           window.VhyReport.setConfig({
-            uploadUrl: "https://t-dc.e.vhall.com/login",
-            idprefix: "doc$",
+            uploadUrl: "",
             __debug: 1,
           });
         },

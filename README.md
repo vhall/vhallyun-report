@@ -1,4 +1,4 @@
-# 微吼云定制统一日志上报 SDK
+# 微吼云定制统一日志上报 JS-SDK
 
 > 用于在 paas 各 js-sdk 中监控埋点
 
@@ -18,11 +18,10 @@ yarn start
 
 ```
 
-3. 构建发布
+3. 编译构建
 
 ```shell
-yarn build:saas-live
-
+yarn build
 ## 生成的文件在release目录下
 
 ```
@@ -42,18 +41,24 @@ window.VhyReport.setConfig({
 });
 
 通常在此sdk加载后就可以设置。
+本地开发时需要补全 public/test.html文件中的 uploadUrl 信息
 ```
 
 3、埋点调用
 
 ```js
 // 微吼云使用
-window.VhyReport.scout(code, content, opitons);
+window.VhyReport.scout(code, content, options);
 
 参数说明:
   code: 大数据提供的code码
   content: 上报内容，json对象
-  opitons: 可选参数
-   --- upMode: ajaxget  上报方式，目前只支持ajaxget
+  options: 可选参数
+   --- upMode: 'ajaxget'  上报方式，目前只支持ajaxget,也是默认值
 
 ```
+
+## TODO
+
+1、上报方式 img、ajaxpost 支持。
+2、批量上报支持。
