@@ -8,9 +8,9 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: `vhyreport-${version}.js`,
+    filename: `VhyReporter-${version}.js`,
     libraryTarget: "umd", // 采用UMD(universal module definition)格式打包
-    library: "VhyReport", // 导出库名
+    library: "VhyReporter", // 导出库名
   },
   module: {
     rules: [

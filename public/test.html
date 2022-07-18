@@ -50,12 +50,12 @@
         methods: {
           handleReport() {
             // 点击上报
-            window.VhyReport.scout(this.code, this.content);
+            window.VhyReporter.scout(this.code, this.content);
           },
         },
         mounted() {
           // 设置上报环境, url参考：http://wiki.vhallops.com/pages/viewpage.action?pageId=918066
-          window.VhyReport.setConfig({
+          window.VhyReporter.setConfig({
             uploadUrl: "",
             __debug: 1,
           });

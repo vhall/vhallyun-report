@@ -1,5 +1,5 @@
 {
-  "name": "vhallyun-report",
+  "name": "@vhallyun/log-reporter",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",

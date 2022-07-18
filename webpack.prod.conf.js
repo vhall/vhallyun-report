@@ -6,7 +6,7 @@ const sharedConfig = require("./webpack.base.conf");
 const buildConf = Object.assign({}, sharedConfig, {
   output: {
     path: path.resolve(__dirname, "release"),
-    filename: `vhyreport-${version}.min.js`,
+    filename: `VhyReporter-${version}.min.js`,
   },
   mode: "production",
   optimization: {

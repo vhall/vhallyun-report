@@ -9,18 +9,18 @@
 1、引入该 sdk 文件
 
 ```
- npm install vhallyun-report
+ npm install @vhallyun/log-reporter
 
  or
 
- npm add vhallyun-report
+ npm add @vhallyun/log-reporter
 
 ```
 
 2、初始化上报 sdk 基础数据
 
 ```js
-window.VhyReport.setConfig({
+window.VhyReporter.setConfig({
   // 上报url
   uploadUrl: ""
 });
@@ -33,7 +33,7 @@ window.VhyReport.setConfig({
 
 ```js
 // 微吼云使用
-window.VhyReport.scout(code, content, options);
+window.VhyReporter.scout(code, content, options);
 
 参数说明:
   code: 大数据提供的code码
