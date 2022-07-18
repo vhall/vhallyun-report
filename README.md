@@ -2,35 +2,20 @@
 
 > 用于在 paas 各 js-sdk 中监控埋点
 
-## 命令
-
-1. 安装依赖
-
-```shell
-  yarn install
-```
-
-2. 本地开发运行
-
-```shell
-yarn start
-或者 yarn dev
-
-```
-
-3. 编译构建
-
-```shell
-yarn build
-## 生成的文件在release目录下
-
-```
-
 &nbsp;
 
 ## 使用
 
 1、引入该 sdk 文件
+
+```
+ npm install vhallyun-report
+
+ or
+
+ npm add vhallyun-report
+
+```
 
 2、初始化上报 sdk 基础数据
 
@@ -60,5 +45,5 @@ window.VhyReport.scout(code, content, options);
 
 ## TODO
 
-1、上报方式 img、ajaxpost 支持。
+1、上报方式 img、ajaxpost 支持。  
 2、批量上报支持。
