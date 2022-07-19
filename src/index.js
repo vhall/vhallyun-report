@@ -3,6 +3,10 @@ const { UPMODE_OPS, getReportOptions, doBtoa, upLog } = require("./upload");
 const baseConfig = require("./base-config");
 
 class VhallYunReport {
+  constructor() {
+    return this;
+  }
+
   /**
    * 设置配置信息,有需要可以补充
    */
@@ -53,7 +57,6 @@ class VhallYunReport {
       baseConfig.__debug && console.error("uploadUrl invalid");
       return;
     }
-    console.log(content);
     // 加密token
     const token = doBtoa(content);
     if (!token) {
