@@ -25,5 +25,5 @@
     "webpack-dev-server": "3.11.0"
   },
   "author": "yxy9022@163.com",
-  "license": "ISC"
+  "license": "MIT"
 }

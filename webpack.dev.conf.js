@@ -18,7 +18,7 @@ buildConf.plugins.push(
   new htmlWebpackPlugin({
     template: path.join(__dirname, "public", "test.html"),
     filename: "test.html",
-    inject: "head", //注入到head
+    inject: false,
   })
 );
 

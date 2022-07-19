@@ -5,14 +5,17 @@ const { version } = require("./package.json");
 const resolve = (dir) => path.join(__dirname, dir);
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    vhyreporter: "./src/index.js",
+    "vhyreporter.min": "./src/index.js",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: `vhyreporter.js`,
     library: "VhyReporter", // 导出库名
     libraryTarget: "umd", // 采用UMD(universal module definition)格式打包
     globalObject: "this",
   },
+  devtool: "cheap-source-map",
   module: {
     rules: [
       {
