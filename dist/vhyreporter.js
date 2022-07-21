@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.0.4
+ * VhyReporter v1.0.7
  * For log tracking
  * Copyright vhall
  */
@@ -276,7 +276,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.0.4";
+        return "1.0.7";
       } // 获取上报方式
 
     }, {
@@ -359,7 +359,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     if (util.isJsonString(content)) {
       token = window.btoa(content);
     } else if (util.isJson(content)) {
-      token = window.btoa(JSON.parse(content));
+      token = window.btoa(JSON.stringify(content));
     }
 
     return token;

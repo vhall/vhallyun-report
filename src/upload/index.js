@@ -16,7 +16,7 @@ function doBtoa(content) {
   if (util.isJsonString(content)) {
     token = window.btoa(content);
   } else if (util.isJson(content)) {
-    token = window.btoa(JSON.parse(content));
+    token = window.btoa(JSON.stringify(content));
   }
   return token;
 }
