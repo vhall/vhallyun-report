@@ -30,7 +30,7 @@ function transporter(content) {
   }
   baseConfig.__debug && console.log("send content: ", content);
 
-  return content ? window.btoa(JSON.stringify(content)) : content;
+  return content ? Util.b64EncodeUnicode(JSON.stringify(content)) : content;
 }
 
 // 将字符串或二进制值转换成Base64编码字符串

@@ -145,4 +145,12 @@ Util.prototype.arrayMergeUnique = function (arr1, arr2) {
   return this.arrayUnique(arr1);
 };
 
+Util.prototype.b64EncodeUnicode = function (str) {
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+      return String.fromCharCode(parseInt(p1, 16));
+    })
+  );
+};
+
 module.exports = new Util();

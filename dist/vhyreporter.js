@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.1.0
+ * VhyReporter v1.1.1
  * For log tracking
  * Copyright vhall
  */
@@ -304,6 +304,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     return this.arrayUnique(arr1);
   };
 
+  Util.prototype.b64EncodeUnicode = function (str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+      return String.fromCharCode(parseInt(p1, 16));
+    }));
+  };
+
   module.exports = new Util();
 });
 
@@ -398,7 +404,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.1.0";
+        return "1.1.1";
       } // 获取上报方式
 
     }, {
@@ -527,7 +533,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     baseConfig.__debug && console.log("send content: ", content);
-    return content ? window.btoa(JSON.stringify(content)) : content;
+    return content ? Util.b64EncodeUnicode(JSON.stringify(content)) : content;
   } // 将字符串或二进制值转换成Base64编码字符串
 
 
