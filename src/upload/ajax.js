@@ -1,8 +1,8 @@
-const util = require("../tools/util");
+const Util = require("../tools/util");
 const baseConfig = require("../base-config");
 
 function getJSON(data) {
-  if (util.paramType(data) === "String") {
+  if (Util.paramType(data) === "String") {
     if (data.indexOf("\n") > -1) {
       data = data.replace(/[\r\n]/g, "");
     }
@@ -13,7 +13,7 @@ function getJSON(data) {
     return {
       code: 200,
     };
-  } else if (util.paramType(data) === "Object") {
+  } else if (Util.paramType(data) === "Object") {
     return data;
   } else {
     return {
@@ -108,8 +108,8 @@ function xmlhttp(_this) {
     } else {
       xhr.send(_this.data);
     }
-    if (util.paramType(timeNum) === "Number") {
-      if (util.paramType(xhr.timeout) === "Number") {
+    if (Util.paramType(timeNum) === "Number") {
+      if (Util.paramType(xhr.timeout) === "Number") {
         xhr.timeout = timeNum;
       } else {
         var timeCallback = (function (xhr) {

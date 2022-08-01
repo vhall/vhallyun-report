@@ -1,6 +1,7 @@
 const baseConfig = require("../base-config");
-const util = require("../tools/util");
+const Util = require("../tools/util");
 const LogAjax = require("./ajax");
+const storage = require("../storage");
 
 // 这里可以补充更多的上报处理方式
 const UPMODE = {
@@ -10,12 +11,34 @@ const UPMODE = {
 // 上报支持的方式集合
 const UPMODE_OPS = Object.values(UPMODE);
 
+// 内容转换
+function transporter(content) {
+  if (Util.isJsonString(content)) {
+    content = JSON.parse(content);
+  }
+  if (!Util.isJson(content)) {
+    content = undefined;
+    baseConfig.__debug && console.warn("report content invalid");
+  }
+
+  // 获取通用属性
+  const vhallSuper = storage.get("VHALLSUPER") || {};
+  // 合并通用属性
+  content = Util.objMerge(vhallSuper, content);
+  if (Object.getOwnPropertyNames(content).length === 0) {
+    content = undefined;
+  }
+  baseConfig.__debug && console.log("send content: ", content);
+
+  return content ? window.btoa(JSON.stringify(content)) : content;
+}
+
 // 将字符串或二进制值转换成Base64编码字符串
 function doBtoa(content) {
   let token = "";
-  if (util.isJsonString(content)) {
+  if (Util.isJsonString(content)) {
     token = window.btoa(content);
-  } else if (util.isJson(content)) {
+  } else if (Util.isJson(content)) {
     token = window.btoa(JSON.stringify(content));
   }
   return token;
@@ -33,7 +56,7 @@ function getReportOptions(upMode) {
       errCode: 410,
     };
   }
-  if (!util.checkURL(url)) {
+  if (!Util.checkURL(url)) {
     return {
       errCode: 411,
     };
@@ -63,6 +86,7 @@ function upLog(log) {
 
 module.exports = {
   UPMODE_OPS,
+  transporter,
   doBtoa,
   getReportOptions,
   upLog,
