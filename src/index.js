@@ -58,10 +58,13 @@ class VhallYunReport {
       return;
     }
     // 加密token
-    const token = doBtoa(content);
-    if (!token) {
-      baseConfig.__debug && console.warn("report content invalid");
-      return;
+    let token = "";
+    if (content) {
+      const token = doBtoa(content);
+      if (!token) {
+        baseConfig.__debug && console.warn("report content invalid");
+        return;
+      }
     }
 
     // 组织数据

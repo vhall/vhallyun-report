@@ -94,7 +94,10 @@ function xmlhttp(_this) {
     xhr.open(_this.type, _this.url, true);
     // xhr.setRequestHeader("Content-Type","multipart/form-data")
     try {
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded;charset=UTF-8"
+      );
     } catch (e) {}
 
     //  xhr超时设置

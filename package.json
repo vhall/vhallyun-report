@@ -1,6 +1,6 @@
 {
   "name": "@vhallyun/log-reporter",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "./dist/vhyreporter.js",
   "scripts": {
