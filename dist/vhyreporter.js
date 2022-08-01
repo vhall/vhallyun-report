@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.0.8
+ * VhyReporter v1.0.9
  * For log tracking
  * Copyright vhall
  */
@@ -276,7 +276,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.0.8";
+        return "1.0.9";
       } // 获取上报方式
 
     }, {
