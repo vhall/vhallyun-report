@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.0.7
+ * VhyReporter v1.0.8
  * For log tracking
  * Copyright vhall
  */
@@ -276,7 +276,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.0.7";
+        return "1.0.8";
       } // 获取上报方式
 
     }, {
@@ -303,11 +303,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         } // 加密token
 
 
-        var token = doBtoa(content);
+        var token = "";
 
-        if (!token) {
-          baseConfig.__debug && console.warn("report content invalid");
-          return;
+        if (content) {
+          var _token = doBtoa(content);
+
+          if (!_token) {
+            baseConfig.__debug && console.warn("report content invalid");
+            return;
+          }
         } // 组织数据
 
 
@@ -542,7 +546,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       xhr.open(_this.type, _this.url, true); // xhr.setRequestHeader("Content-Type","multipart/form-data")
 
       try {
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
       } catch (e) {} //  xhr超时设置
 
 
