@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.0.9
+ * VhyReporter v1.1.0
  * For log tracking
  * Copyright vhall
  */
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -150,16 +150,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * Created by yangxy on 2021/12/06.
    * 通用工具模块
    */
-
+  function Util() {}
   /**
    * 转换参数类型
    * eg. paramType(123)==='Number'
    * @param {*} param
    * @returns
    */
-  function paramType(param) {
+
+
+  Util.prototype.paramType = function (param) {
     return Object.prototype.toString.call(param).replace("[object ", "").replace("]", "");
-  }
+  };
   /**
    * 检测url是否http(s)链接
    * @param {*} url
@@ -167,9 +169,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    */
 
 
-  function checkURL(url) {
+  Util.prototype.checkURL = function (url) {
     return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/.test(url);
-  }
+  };
   /**
    * 判断是否非空json对象
    * @param {*} obj
@@ -177,15 +179,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    */
 
 
-  function isJson(obj) {
+  Util.prototype.isJson = function (obj) {
     return _typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() === "[object object]" && !obj.length;
-  }
+  };
   /**
    * 判断是否非空json字符串
    */
 
 
-  function isJsonString(str) {
+  Util.prototype.isJsonString = function (str) {
     if (typeof str == "string") {
       try {
         if (_typeof(JSON.parse(str)) == "object") {
@@ -197,18 +199,134 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     return false;
-  }
-
-  module.exports = {
-    paramType: paramType,
-    checkURL: checkURL,
-    isJson: isJson,
-    isJsonString: isJsonString
   };
+
+  Util.prototype.ArrayToObj = function (arr) {
+    var obj = {};
+
+    for (var i = 0; i < arr.length; i++) {
+      obj[arr[i]] = "";
+    }
+
+    return obj;
+  };
+
+  Util.prototype.keyValueToObje = function (key, value) {
+    var obj = {};
+    obj[key] = value;
+    return obj;
+  };
+
+  Util.prototype.toObj = function (param1, param2) {
+    var obj = {};
+
+    if (this.paramType(param1) === "String") {
+      obj = this.keyValueToObje(param1, param2);
+      return obj;
+    }
+
+    if (this.paramType(param1) === "Array") {
+      obj = this.ArrayToObj(param1);
+      return obj;
+    }
+
+    if (this.paramType(param1) === "Object") {
+      return param1;
+    }
+
+    return obj;
+  };
+
+  Util.prototype.arrayUnique = function (arr) {
+    var tmpArr = [];
+    var hash = {}; // hash为hash表
+
+    for (var i = 0; i < arr.length; i++) {
+      if (!hash[arr[i]]) {
+        // 如果hash表中没有当前项
+        hash[arr[i]] = true; // 存入hash表
+
+        tmpArr.push(arr[i]); // 存入临时数组
+      }
+    }
+
+    return tmpArr;
+  };
+
+  Util.prototype.objMerge = function (parentObj, part) {
+    if (this.paramType(parentObj) !== "Object" || this.paramType(part) !== "Object") {
+      return parentObj;
+    }
+
+    var obj = {};
+
+    for (var key in parentObj) {
+      obj[key] = parentObj[key];
+    }
+
+    for (var partKey in part) {
+      var partValue = part[partKey];
+      var objValue = obj[partKey];
+      var partValueType = this.paramType(partValue);
+      var objValueType = this.paramType(objValue);
+
+      if (objValue && objValueType === "Object" && partValueType === "Object") {
+        obj[partKey] = this.objMerge(objValue, partValue);
+      } else if (objValueType === "Array" && partValueType === "Array") {
+        obj[partKey] = this.arrayMergeUnique(objValue, partValue);
+      } else if (partValueType === "Function" && objValueType === "Function") {
+        obj[partKey] = this.compose(objValue, partValue);
+      } else {
+        obj[partKey] = partValue;
+      }
+    }
+
+    return obj;
+  };
+
+  Util.prototype.compose = function () {
+    var args = arguments;
+    var start = args.length - 1;
+    return function () {
+      var i = start;
+      var result = args[start].apply(this, arguments);
+
+      while (i--) {
+        result = args[i].call(this, result);
+      }
+
+      return result;
+    };
+  };
+
+  Util.prototype.arrayMergeUnique = function (arr1, arr2) {
+    arr1.push.apply(arr1, arr2);
+    return this.arrayUnique(arr1);
+  };
+
+  module.exports = new Util();
 });
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else { var mod; }
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  var store = new Map();
+  module.exports = store;
+});
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -227,11 +345,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-  var _require = __webpack_require__(3),
+  var _require = __webpack_require__(4),
       UPMODE_OPS = _require.UPMODE_OPS,
       getReportOptions = _require.getReportOptions,
-      doBtoa = _require.doBtoa,
+      transporter = _require.transporter,
       upLog = _require.upLog;
+
+  var Util = __webpack_require__(1);
+
+  var storage = __webpack_require__(2);
 
   var baseConfig = __webpack_require__(0);
 
@@ -276,7 +398,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.0.9";
+        return "1.1.0";
       } // 获取上报方式
 
     }, {
@@ -300,27 +422,53 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         if (params.errCode) {
           baseConfig.__debug && console.error("uploadUrl invalid");
           return;
-        } // 加密token
-
-
-        var token = "";
-
-        if (content) {
-          var _token = doBtoa(content);
-
-          if (!_token) {
-            baseConfig.__debug && console.warn("report content invalid");
-            return;
-          }
         } // 组织数据
 
 
         params.data = {
           k: code,
           id: "".concat(baseConfig.idprefix).concat(Date.now()),
-          token: token
+          token: transporter(content) // 加密token
+
         };
         upLog(params);
+      }
+      /**
+       * 注册多个通用属性
+       */
+
+    }, {
+      key: "registerSuperProperties",
+      value: function registerSuperProperties(key, value, callback) {
+        if (Util.paramType(key) === "Object" && Util.paramType(value) === "Function") {
+          callback = value;
+          value = "";
+        } else if (Util.paramType(key) === "String" && Util.paramType(value) === "Function") {
+          value = value.call(value);
+        }
+
+        var obj = Util.toObj(key, value);
+
+        for (var itemKey in obj) {
+          if (Util.paramType(obj[itemKey]) === "Function") {
+            obj[itemKey] = obj[itemKey].call(obj[itemKey]);
+          }
+        }
+
+        var vhallSuper = storage.get("VHALLSUPER") || {};
+        var saveVhallSuper = Util.objMerge(vhallSuper, obj);
+        storage.set("VHALLSUPER", saveVhallSuper);
+        Util.paramType(callback) === "Function" && callback.call(callback);
+      }
+    }, {
+      key: "getSuperProperties",
+      value: function getSuperProperties(callback) {
+        return storage.get("VHALLSUPER") || {};
+      }
+    }, {
+      key: "clearSuperProperties",
+      value: function clearSuperProperties(callback) {
+        storage["delete"]("VHALLSUPER");
       }
     }]);
 
@@ -331,7 +479,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -346,23 +494,49 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   var baseConfig = __webpack_require__(0);
 
-  var util = __webpack_require__(1);
+  var Util = __webpack_require__(1);
 
-  var LogAjax = __webpack_require__(4); // 这里可以补充更多的上报处理方式
+  var LogAjax = __webpack_require__(5);
+
+  var storage = __webpack_require__(2); // 这里可以补充更多的上报处理方式
 
 
   var UPMODE = {
     AJAXGET: "ajaxget"
   }; // 上报支持的方式集合
 
-  var UPMODE_OPS = Object.values(UPMODE); // 将字符串或二进制值转换成Base64编码字符串
+  var UPMODE_OPS = Object.values(UPMODE); // 内容转换
+
+  function transporter(content) {
+    if (Util.isJsonString(content)) {
+      content = JSON.parse(content);
+    }
+
+    if (!Util.isJson(content)) {
+      content = undefined;
+      baseConfig.__debug && console.warn("report content invalid");
+    } // 获取通用属性
+
+
+    var vhallSuper = storage.get("VHALLSUPER") || {}; // 合并通用属性
+
+    content = Util.objMerge(vhallSuper, content);
+
+    if (Object.getOwnPropertyNames(content).length === 0) {
+      content = undefined;
+    }
+
+    baseConfig.__debug && console.log("send content: ", content);
+    return content ? window.btoa(JSON.stringify(content)) : content;
+  } // 将字符串或二进制值转换成Base64编码字符串
+
 
   function doBtoa(content) {
     var token = "";
 
-    if (util.isJsonString(content)) {
+    if (Util.isJsonString(content)) {
       token = window.btoa(content);
-    } else if (util.isJson(content)) {
+    } else if (Util.isJson(content)) {
       token = window.btoa(JSON.stringify(content));
     }
 
@@ -384,7 +558,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       };
     }
 
-    if (!util.checkURL(url)) {
+    if (!Util.checkURL(url)) {
       return {
         errCode: 411
       };
@@ -417,6 +591,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   module.exports = {
     UPMODE_OPS: UPMODE_OPS,
+    transporter: transporter,
     doBtoa: doBtoa,
     getReportOptions: getReportOptions,
     upLog: upLog
@@ -424,7 +599,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -437,12 +612,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
-  var util = __webpack_require__(1);
+  var Util = __webpack_require__(1);
 
   var baseConfig = __webpack_require__(0);
 
   function getJSON(data) {
-    if (util.paramType(data) === "String") {
+    if (Util.paramType(data) === "String") {
       if (data.indexOf("\n") > -1) {
         data = data.replace(/[\r\n]/g, "");
       }
@@ -454,7 +629,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       return {
         code: 200
       };
-    } else if (util.paramType(data) === "Object") {
+    } else if (Util.paramType(data) === "Object") {
       return data;
     } else {
       return {
@@ -559,8 +734,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         xhr.send(_this.data);
       }
 
-      if (util.paramType(timeNum) === "Number") {
-        if (util.paramType(xhr.timeout) === "Number") {
+      if (Util.paramType(timeNum) === "Number") {
+        if (Util.paramType(xhr.timeout) === "Number") {
           xhr.timeout = timeNum;
         } else {
           var timeCallback = function (xhr) {
