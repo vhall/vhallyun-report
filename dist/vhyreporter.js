@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.1.3
+ * VhyReporter v1.1.4
  * For log tracking
  * Copyright vhall
  */
@@ -150,6 +150,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * Created by yangxy on 2021/12/06.
    * 通用工具模块
    */
+  var reduce = Function.bind.call(Function.call, Array.prototype.reduce);
+  var isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable);
+  var concat = Function.bind.call(Function.call, Array.prototype.concat);
+  var keys = Reflect.ownKeys;
+
   function Util() {}
   /**
    * 转换参数类型
@@ -310,6 +315,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }));
   };
 
+  Util.prototype.valuesOfObje = function (obj) {
+    if (!Object.values) {
+      return reduce(keys(obj), function (v, k) {
+        return concat(v, typeof k === "string" && isEnumerable(obj, k) ? [obj[k]] : []);
+      }, []);
+    }
+
+    return Object.values(obj);
+  };
+
   module.exports = new Util();
 });
 
@@ -404,7 +419,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.1.3";
+        return "1.1.4";
       } // 获取上报方式
 
     }, {
@@ -514,7 +529,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     AJAXGET: "ajaxget"
   }; // 上报支持的方式集合
 
-  var UPMODE_OPS = Object.values(UPMODE); // 内容转换
+  var UPMODE_OPS = Util.valuesOfObje(UPMODE); // 内容转换
 
   function transporter(content) {
     if (Util.isJsonString(content)) {
