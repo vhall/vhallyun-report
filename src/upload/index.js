@@ -9,7 +9,7 @@ const UPMODE = {
 };
 
 // 上报支持的方式集合
-const UPMODE_OPS = Object.values(UPMODE);
+const UPMODE_OPS = Util.valuesOfObje(UPMODE);
 
 // 内容转换
 function transporter(content) {

@@ -8,6 +8,7 @@ const buildConf = Object.assign({}, sharedConfig, {
     contentBase: path.join(__dirname, "public"),
     open: true,
     openPage: "test.html",
+    host: "172.16.27.232",
     inline: true,
     hot: true,
     port: 9095,

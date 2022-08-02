@@ -2,6 +2,13 @@
  * Created by yangxy on 2021/12/06.
  * 通用工具模块
  */
+const reduce = Function.bind.call(Function.call, Array.prototype.reduce);
+const isEnumerable = Function.bind.call(
+  Function.call,
+  Object.prototype.propertyIsEnumerable
+);
+const concat = Function.bind.call(Function.call, Array.prototype.concat);
+const keys = Reflect.ownKeys;
 
 function Util() {}
 
@@ -151,6 +158,21 @@ Util.prototype.b64EncodeUnicode = function (str) {
       return String.fromCharCode(parseInt(p1, 16));
     })
   );
+};
+
+Util.prototype.valuesOfObje = function (obj) {
+  if (!Object.values) {
+    return reduce(
+      keys(obj),
+      (v, k) =>
+        concat(
+          v,
+          typeof k === "string" && isEnumerable(obj, k) ? [obj[k]] : []
+        ),
+      []
+    );
+  }
+  return Object.values(obj);
 };
 
 module.exports = new Util();
