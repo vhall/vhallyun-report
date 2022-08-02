@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.1.1
+ * VhyReporter v1.1.3
  * For log tracking
  * Copyright vhall
  */
@@ -404,7 +404,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.1.1";
+        return "1.1.3";
       } // 获取上报方式
 
     }, {
@@ -422,22 +422,25 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "scout",
       value: function scout(code, content, options) {
-        // 上报方式
-        var params = getReportOptions(options === null || options === void 0 ? void 0 : options.upMode);
+        try {
+          // 上报方式
+          var params = getReportOptions(options === null || options === void 0 ? void 0 : options.upMode);
 
-        if (params.errCode) {
-          baseConfig.__debug && console.error("uploadUrl invalid");
-          return;
-        } // 组织数据
+          if (params.errCode) {
+            baseConfig.__debug && console.error("uploadUrl invalid");
+            return;
+          } // 组织数据
 
 
-        params.data = {
-          k: code,
-          id: "".concat(baseConfig.idprefix).concat(Date.now()),
-          token: transporter(content) // 加密token
+          params.data = {
+            k: code,
+            id: "".concat(baseConfig.idprefix).concat(Date.now()),
+            token: transporter(content) // 加密token
 
-        };
-        upLog(params);
+          }; // 执行上报
+
+          upLog(params);
+        } catch (e) {}
       }
       /**
        * 注册多个通用属性
