@@ -57,20 +57,23 @@ class VhallYunReport {
    * @param {*} options
    */
   scout(code, content, options) {
-    // 上报方式
-    const params = getReportOptions(options?.upMode);
-    if (params.errCode) {
-      baseConfig.__debug && console.error("uploadUrl invalid");
-      return;
-    }
+    try {
+      // 上报方式
+      const params = getReportOptions(options?.upMode);
+      if (params.errCode) {
+        baseConfig.__debug && console.error("uploadUrl invalid");
+        return;
+      }
 
-    // 组织数据
-    params.data = {
-      k: code,
-      id: `${baseConfig.idprefix}${Date.now()}`,
-      token: transporter(content), // 加密token
-    };
-    upLog(params);
+      // 组织数据
+      params.data = {
+        k: code,
+        id: `${baseConfig.idprefix}${Date.now()}`,
+        token: transporter(content), // 加密token
+      };
+      // 执行上报
+      upLog(params);
+    } catch (e) {}
   }
 
   /**
