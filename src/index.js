@@ -64,12 +64,11 @@ class VhallYunReport {
         baseConfig.__debug && console.error("uploadUrl invalid");
         return;
       }
-
       // 组织数据
       params.data = {
         k: code,
         id: `${baseConfig.idprefix}${Date.now()}`,
-        token: transporter(content), // 加密token
+        token: transporter(content, code),
       };
       // 执行上报
       upLog(params);

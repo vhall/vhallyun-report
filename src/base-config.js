@@ -17,4 +17,7 @@ module.exports = {
 
   // 自定义id前缀
   idprefix: "",
+
+  // 追加上报时间（ms）
+  reportTime: true,
 };

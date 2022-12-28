@@ -12,7 +12,7 @@ const UPMODE = {
 const UPMODE_OPS = Util.valuesOfObje(UPMODE);
 
 // 内容转换
-function transporter(content) {
+function transporter(content, k) {
   if (Util.isJsonString(content)) {
     content = JSON.parse(content);
   }
@@ -28,7 +28,13 @@ function transporter(content) {
   if (Object.getOwnPropertyNames(content).length === 0) {
     content = undefined;
   }
-  baseConfig.__debug && console.log("send content: ", content);
+
+  // 补充上报时间
+  if (content && baseConfig.reportTime) {
+    content.reportTime = Date.now();
+  }
+
+  baseConfig.__debug && console.log("send k: ", k, "; content:", content);
 
   return content ? Util.b64EncodeUnicode(JSON.stringify(content)) : content;
 }

@@ -26,12 +26,12 @@ Util.prototype.paramType = function (param) {
 };
 
 /**
- * 检测url是否http(s)链接
+ * 检测url是否http(s),或 // 开头的链接
  * @param {*} url
  * @returns
  */
 Util.prototype.checkURL = function (url) {
-  return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/.test(url);
+  return /^(http(s)?:)?\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/.test(url);
 };
 
 /**
