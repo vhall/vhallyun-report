@@ -1,5 +1,5 @@
 /*!
- * VhyReporter v1.1.6
+ * VhyReporter v1.1.7
  * For log tracking
  * Copyright vhall
  */
@@ -114,6 +114,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   "use strict";
 
   module.exports = {
+    // 启用上报
+    enable: true,
     // 是否开启了调试模式
     __debug: 0,
     // 获取数据超时时间（get）
@@ -354,6 +356,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       key: "setConfig",
       value: function setConfig(option) {
         if (option) {
+          // 设置是启用还是禁用
+          if (typeof option.enable === "boolean") {
+            baseConfig.enable = option.enable;
+          }
+
           // 设置基本url
           if (option.uploadUrl) {
             baseConfig.uploadUrl = option.uploadUrl;
@@ -379,13 +386,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "version",
       get: function get() {
-        return "1.1.6";
+        return "1.1.7";
       }
       // 获取上报方式
     }, {
       key: "baseConfig",
       get: function get() {
         return baseConfig;
+      }
+
+      /**
+       * 设置是启用还是禁用
+       * @param {*} b  true: 启用； false: 禁用
+       */
+    }, {
+      key: "setEnabled",
+      value: function setEnabled(b) {
+        baseConfig.enable = !!b;
       }
 
       /**
@@ -397,6 +414,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: "scout",
       value: function scout(code, content, options) {
+        // 不启用
+        if (!baseConfig.enable) return;
         try {
           // 上报方式
           var params = getReportOptions(options === null || options === void 0 ? void 0 : options.upMode);
