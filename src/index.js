@@ -18,6 +18,11 @@ class VhallYunReport {
    */
   setConfig(option) {
     if (option) {
+      // 设置是启用还是禁用
+      if (typeof option.enable === "boolean") {
+        baseConfig.enable = option.enable;
+      }
+
       // 设置基本url
       if (option.uploadUrl) {
         baseConfig.uploadUrl = option.uploadUrl;
@@ -51,12 +56,23 @@ class VhallYunReport {
   }
 
   /**
+   * 设置是启用还是禁用
+   * @param {*} b  true: 启用； false: 禁用
+   */
+  setEnabled(b) {
+    baseConfig.enable = !!b;
+  }
+
+  /**
    * vhall基础平台sdk定制使用
    * @param {*} code
    * @param {*} data
    * @param {*} options
    */
   scout(code, content, options) {
+    // 不启用
+    if (!baseConfig.enable) return;
+
     try {
       // 上报方式
       const params = getReportOptions(options?.upMode);

@@ -1,4 +1,7 @@
 module.exports = {
+  // 启用上报
+  enable: true,
+
   // 是否开启了调试模式
   __debug: 0,
 
